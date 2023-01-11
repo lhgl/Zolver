@@ -1,8 +1,8 @@
-numpy==1.15.0
-scipy==1.0.0
-opencv_python==3.3.0.10
-scikit_image==0.13.1
-matplotlib==2.1.0
+numpy
+scipy
+opencv_python
+scikit_image
+matplotlib
 Pillow
-PyQt5>=5.0
-scikit_learn>=0.18.1
+PyQt5
+scikit_learn

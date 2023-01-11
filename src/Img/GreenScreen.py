@@ -1,6 +1,7 @@
 from PIL import Image
 import cv2
 import numpy as np
+import pathlib
 
 GREEN_RANGE_MIN_HSV = (100, 200, 70)
 GREEN_RANGE_MAX_HSV = (185, 255, 255)
@@ -80,5 +81,5 @@ def remove_background(path, factor=0.84):
                 pix[x, y] = (0, 0, 0)
             else:
                 pix[x, y] = (255, 255, 255)
-
-    im.save('/tmp/green_background_removed.png')
+    absolut_path = str(pathlib.Path().absolute())
+    im.save(absolut_path + '\\tmp\\green_background_removed.png')

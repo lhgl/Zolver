@@ -1,9 +1,9 @@
 from Puzzle.Distance import diff_match_edges, real_edge_compute, generated_edge_compute
 from Puzzle.PuzzlePiece import *
-
+import pathlib
 from Puzzle.Extractor import Extractor
 from Puzzle.Mover import *
-from cv2 import cv2
+import cv2
 
 from Puzzle.Enums import *
 import sys
@@ -40,6 +40,7 @@ class Puzzle():
         self.diff = {}
         self.edge_to_piece = {}
 
+        self.log('>>> Total pieces_')
         for p in self.pieces_:
             for e in p.edges_:
                 self.edge_to_piece[e] = p
@@ -67,8 +68,10 @@ class Puzzle():
                 break
         self.log("Number of border pieces: ", len(border_pieces) + 1)
 
-        self.export_pieces('/tmp/stick{0:03d}'.format(1) + ".png",
-                           '/tmp/colored{0:03d}'.format(1) + ".png",
+        self.absolut_path = str(pathlib.Path().absolute())
+
+        self.export_pieces( self.absolut_path +'\\tmp\\stick{0:03d}'.format(1) + ".png",
+                           self.absolut_path +'\\tmp\\colored{0:03d}'.format(1) + ".png",
                            'Border types'.format(1),
                            'Step {0:03d}'.format(1), display_border=True)
 
@@ -91,7 +94,7 @@ class Puzzle():
 
         self.log('>>> SAVING result...')
         self.translate_puzzle()
-        self.export_pieces("/tmp/stick.png", "/tmp/colored.png", display=False)
+        self.export_pieces(self.absolut_path + "\\tmp\\stick.png",self.absolut_path + "\\tmp\\colored.png", display=False)
 
 
         # Two sets of pieces: Already connected ones and pieces remaining to connect to the others
@@ -151,8 +154,8 @@ class Puzzle():
 
             self.diff = self.compute_diffs(left_pieces, self.diff, best_p, edge_connected=block_best_e)
 
-            self.export_pieces('/tmp/stick{0:03d}'.format(len(self.connected_directions)) + ".png",
-                                '/tmp/colored{0:03d}'.format(len(self.connected_directions)) + ".png",
+            self.export_pieces(self.absolut_path + '\\tmp\\stick{0:03d}'.format(len(self.connected_directions)) + ".png",
+                                self.absolut_path +'\\tmp\\colored{0:03d}'.format(len(self.connected_directions)) + ".png",
                                 name_colored='Step {0:03d}'.format(len(self.connected_directions)))
 
         return connected_pieces

@@ -4,6 +4,7 @@ from colorsys import rgb_to_hls
 import cv2
 import numpy as np
 import math, pickle, os
+import pathlib
 
 from Img.Pixel import Pixel, flatten_colors
 from Puzzle.Edge import Edge
@@ -34,6 +35,7 @@ def get_relative_angles(cnt, export=False, sigma=5):
     length = len(cnt)
     angles = []
     last = np.pi
+    absolut_path = str(pathlib.Path().absolute())
 
     cnt_tmp = np.array(cnt)
     cnt = np.append(cnt, cnt_tmp, axis=0)
@@ -58,10 +60,10 @@ def get_relative_angles(cnt, export=False, sigma=5):
     angles = angles[0:length]
 
     if export:
-        pickle.dump(angles, open("/tmp/save" + str(COUNT) + ".p", "wb"))
+        pickle.dump(angles, open(absolut_path + "\\tmp\\save" + str(COUNT) + ".p", "wb"))
 
         plt.plot(np.append(angles, angles))
-        plt.savefig("/tmp/fig" + str(COUNT) + ".png")
+        plt.savefig(absolut_path + "\\tmp\\fig" + str(COUNT) + ".png")
         plt.clf()
         plt.cla()
         plt.close()
@@ -409,6 +411,7 @@ def export_contours(img, img_bw, contours, path, modulo, viewer=None, green=Fals
     puzzle_pieces = []
     list_img = []
     out_color = np.zeros_like(img)
+    absolut_path = str(pathlib.Path().absolute())
 
     for idx, cnt in enumerate(contours):
         
@@ -496,9 +499,10 @@ def export_contours(img, img_bw, contours, path, modulo, viewer=None, green=Fals
         (max_width * (index % modulo)):(max_width * (index % modulo) + image.shape[1])] = image
 
 
-    cv2.imwrite("/tmp/color_border.png", out_color)
+    cv2.imwrite(absolut_path + "\\tmp\\color_border.png", out_color)
     cv2.imwrite(path, pieces_img)
     if viewer:
-        viewer.addImage("Extracted colored border", "/tmp/color_border.png")
+        viewer.addImage("Extracted colored border",absolut_path + "\\tmp\\color_border.png")
 
     return puzzle_pieces
+
